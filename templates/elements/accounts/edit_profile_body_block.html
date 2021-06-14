@@ -22,7 +22,7 @@
         <div class="medium-12 medium-centered large-12 large-centered columns login">
             <div class="callout">
                 <h5>{% trans "Update Password" %}</h5>
-                <p>{% trans "You can update your password by entering your existing password plus your new password." %}</p>
+                <p>{% trans "You can update your password by entering your existing password plus your new password. Minimum password length is 9 characters." %}</p>
                 <form method="POST">
                     {% csrf_token %}
                     <div class="row">
