@@ -47,7 +47,6 @@ $tooltip-radius: $global-radius !default;
   font-weight: $has-tip-font-weight;
   position: relative;
   display: inline-block;
-  cursor: help;
 }
 
 @mixin tooltip {
