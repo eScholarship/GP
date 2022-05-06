@@ -95,6 +95,7 @@
                 </div>
             {% endif %}
         {% endfor %}
+    {% endif %}
 
         <div data-sticky-container class="row">
             <div class="mini-bar sticky" data-sticky data-margin-top="0" data-sticky data-anchor="content">
@@ -107,6 +108,7 @@
                         <div class="large-6 columns">
                             <ul class="menu vertical medium-horizontal pad-left-15"
                                 data-responsive-menu="drilldown medium-dropdown">
+                              {% with article.get_doi_url as doi_url %}
                                 <li>{% trans "Share" %}:</li>
                                 <li><a href="https://www.facebook.com/share.php?p[url]={% if doi_url %}{{ doi_url }}{% else %}{{ article.url }}{% endif %}" target="_blank"><i class="fa fa-facebook"></i></a></li>
                                 <li><a href="https://twitter.com/intent/tweet?text={{ article.title }} {% if doi_url %}{{ doi_url }}{% else %}{{ article.url }}{% endif %}" target="_blank"><i class="fa fa-twitter"></i></a></li>
@@ -216,17 +218,20 @@
                                                         <span>{% trans "Downloads" %}</span>
                                                     </h4>
                                                 </div>
+                                                {% if article.citation_count and not journal_settings.article.suppress_citations_metric %}
                                                 <div class="large-4 columns">
                                                     <h4 class="number">
                                                         {{ article.citation_count }}<span>{% trans "Citations" %}</span>
                                                     </h4>
                                                 </div>
+                                                {% endif %}
                                             </div>
                                         </div>
                                     {% endif %}
                                 {% endif %}
                                 <div class="bottom">
                                     <div class="row" data-equalizer>
+                                        {% if article.date_published or article.date_accepted %}
                                         <div class="large-4 columns" data-equalizer-watch>
                                             {% if article.is_published %}
                                                 <h5>{% trans "Published on" %} <br>
@@ -287,6 +292,7 @@
                             <div class="section">
                                 <h3>{% trans "Download" %}</h3>
                             <ul>
+                                {% if article.is_published %}
                                 {% for galley in galleys %}
                                     <li>
                                         <a href="{% url 'article_download_galley' article.id galley.id %}">{% trans "Download" %} {{ galley.label }}</a>
@@ -298,6 +304,9 @@
                                         {% endif %}
                                     </li>
                                 {% endfor %}
+                                {% else %}
+                                <li> Downloads are not available until this article is published </li>
+                                {% endif %}
                             </ul>
                         </div>
                             <div class="section">
